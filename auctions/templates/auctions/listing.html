@@ -1,0 +1,54 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+  <div class="container">
+    <h1 class="mb-3">Listing: {{ item.title }}
+      {% if item.title in request.session.watchlists %}
+      <span class="badge bg-secondary fs-6">in watchlists</span>
+      {% endif %}
+    </h1>
+    <form action="{% url 'watchlist' %}" method="post">
+      {% csrf_token %}
+      <button class="btn btn-sm btn-secondary" type="submit" name="watchlists" value="{{ item.title }}">Add/remove watchlist</button>
+    </form>
+    
+    <img class="l-image mb-3" src="{{ item.image }}" alt="listing image">
+    <p>{{ item.description }}</p>
+    <small>{{ count }} bids has been made so far. Best bid being {{ max.amount__max }} $</small>
+    <form action="{% url 'bid' item.title %}" method="post">
+      {% csrf_token %}
+      <input class="form-control" type="number" name="bid" id="bid" placeholder="bid">
+      <input class="btn btn-success mt-3" type="submit" value="Place bid">
+    </form>
+    <h2 class="mt-3">Details</h2>
+    <ul class="mb-3">
+      <li>Item listed by: {{ item.user }}</li>
+      <li>Category: {{ item.get_category_display }}</li> {#in templating language, omit () behind display. the actual syntax is  item.get_category_display()#}
+      <li>Starting Price: {{ item.startingbid }} $</li>
+    </ul>
+    <form action="{% url 'comment' item.title %}" method="post">
+      {% csrf_token %}
+      <input class="form-control" type="text" name="comment" id="comment" placeholder="comment">
+      <input class="btn btn-info mt-3" type="submit" value="Comment">
+    </form>
+    {% if comments %}
+      {% for comment in comments %}
+      <div class="card mt-3">
+        <div class="card-body">
+          {{ comment.text }}
+        </div>
+        <div class="card-footer">commented by {{ comment.user.username }}</div>
+      </div>
+      {% endfor %}
+
+    {% endif %}
+
+    {% if item.user.username == request.user.username %}
+    <form class="my-3" action="{% url 'close' %}" method="post">
+      {% csrf_token %}
+      <button class="btn btn-sm btn-danger" type="submit" name="close" value="{{ item.title }}">Close Listing</button>
+    </form>
+    {% endif %}
+  </div>
+  
+{% endblock %}

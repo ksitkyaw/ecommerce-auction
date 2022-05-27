@@ -22,8 +22,30 @@
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'category' %}">Categories</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link position-relative" href="{% url 'watchlist' %}">
+                        Watchlist
+                        <span class="position-absolute text-white top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ request.session.watchlists|length }}
+                        </span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'alllisting' %}">All Listing</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create' %}">Create Listing</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
                 </li>
+
             {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'login' %}">Log In</a>
