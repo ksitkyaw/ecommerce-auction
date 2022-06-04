@@ -3,7 +3,7 @@
 {% block body %}
   <h1>All Categories</h1>
   <ul>
-    
+  {# list cannot be used list[0] , instead use list.0 #}  
   {% for category in categories %}
     <a href="{% url 'categorylisting' category.0 %} "><li>{{ category.1 }}</li></a>
   {% endfor %}

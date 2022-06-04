@@ -7,7 +7,7 @@
     {% if message %}
         <div>{{ message }}</div>
     {% endif %}
-
+    {# name attribute of the input fields will be key of the post request data.They must  be inclued #}
     <form action="{% url 'register' %}" method="post">
         {% csrf_token %}
         <div class="form-group">

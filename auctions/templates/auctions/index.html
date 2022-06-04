@@ -1,4 +1,5 @@
 {% extends "auctions/layout.html" %}
+{% load static %}
 
 {% block body %}
   {% if message %}
@@ -24,4 +25,10 @@
           </div>
     {% endfor %}
     </ul>
+    {# the code to let the below tag to execute is commented out inside views.py (index) #}
+    {% if winner %}
+      <script>
+        alert("You have won an auction")
+      </script>
+    {% endif %}
 {% endblock %}
